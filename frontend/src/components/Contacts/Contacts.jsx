@@ -3,6 +3,8 @@ import React, { useState } from "react";
 const ContactPage = () => {
   const [form, setForm] = useState({ name: "", contact: "", message: "" });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
 
   // Handle input changes
   const handleChange = (e) => {
@@ -16,7 +18,7 @@ const ContactPage = () => {
     if (!form.contact.trim()) {
       newErrors.contact = "Phone or Email is required";
     } else if (
-      !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.contact) &&
+      !/^[\w-.]+@([\w-]+\.)+[\w-]{2,10}$/.test(form.contact) &&
       !/^\d{10}$/.test(form.contact)
     ) {
       newErrors.contact = "Enter a valid email or 10-digit phone number";
@@ -28,19 +30,40 @@ const ContactPage = () => {
   };
 
   // Submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSuccess("");
     if (!validateForm()) return;
 
-    // 🔗 API call or backend integration can go here
-    alert("✅ Thanks for your query! We'll get back to you soon.");
-    setForm({ name: "", contact: "", message: "" });
+    setLoading(true);
+    try {
+      // 🔗 Replace with your actual backend API endpoint
+      const response = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (response.ok) {
+        setSuccess("✅ Thanks for your query! We'll get back to you soon.");
+        setForm({ name: "", contact: "", message: "" });
+      } else {
+        setSuccess("❌ Failed to send your query. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error sending contact form:", error);
+      setSuccess("⚠️ Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 font-sans text-gray-800">
       {/* Header */}
-      <h1 className="text-3xl font-bold mb-4">📞 Contact Us</h1>
+      <h1 className="text-3xl font-bold mb-4" aria-label="Contact Us">
+        📞 Contact Us
+      </h1>
       <p className="mb-8 leading-relaxed">
         At <strong>कृषिSarthi (KrishiSarthi)</strong>, our goal is to empower
         farmers with digital solutions for crop protection, weather insights,
@@ -50,11 +73,18 @@ const ContactPage = () => {
 
       {/* Developer Info */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">👨‍💻 Contact the Developers</h2>
-        <p><strong>Team Name:</strong> Mythical Coders</p>
+        <h2 className="text-2xl font-semibold mb-2">
+          👨‍💻 Contact the Developers
+        </h2>
+        <p>
+          <strong>Team Name:</strong> Mythical Coders
+        </p>
         <p>
           📧 Email:{" "}
-          <a href="mailto:mythicalcoders.team@gmail.com" className="text-green-700 underline">
+          <a
+            href="mailto:mythicalcoders.team@gmail.com"
+            className="text-green-700 underline"
+          >
             mythicalcoders.team@gmail.com
           </a>
         </p>
@@ -67,7 +97,7 @@ const ContactPage = () => {
           <li>Yash Kirola</li>
           <li>Bhavesh Tripathi</li>
           <li>Himadri Mehra</li>
-          <li>Kritika Tewari</li>
+          <li>Kritika Tiwari</li>
         </ul>
       </section>
 
@@ -85,7 +115,9 @@ const ContactPage = () => {
               className="w-full p-3 border rounded-md"
               required
             />
-            {errors.name && <p className="text-red-600 text-sm">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-600 text-sm">{errors.name}</p>
+            )}
           </div>
 
           <div>
@@ -98,7 +130,9 @@ const ContactPage = () => {
               className="w-full p-3 border rounded-md"
               required
             />
-            {errors.contact && <p className="text-red-600 text-sm">{errors.contact}</p>}
+            {errors.contact && (
+              <p className="text-red-600 text-sm">{errors.contact}</p>
+            )}
           </div>
 
           <div>
@@ -111,21 +145,28 @@ const ContactPage = () => {
               className="w-full p-3 border rounded-md resize-y"
               required
             />
-            {errors.message && <p className="text-red-600 text-sm">{errors.message}</p>}
+            {errors.message && (
+              <p className="text-red-600 text-sm">{errors.message}</p>
+            )}
           </div>
 
           <button
             type="submit"
-            className="bg-green-700 text-white py-3 rounded-md hover:bg-green-800 transition"
+            disabled={loading}
+            className="bg-green-700 text-white py-3 rounded-md hover:bg-green-800 transition disabled:opacity-50"
           >
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </form>
+
+        {success && <p className="mt-4 text-center">{success}</p>}
       </section>
 
       {/* Government Portals */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">🌐 Government Support Portals</h2>
+        <h2 className="text-2xl font-semibold mb-4">
+          🌐 Government Support Portals
+        </h2>
         <p className="mb-4">
           If you face serious issues like exploitation, unfair pricing, or fraud,
           you can directly contact these official government platforms:
@@ -139,31 +180,56 @@ const ContactPage = () => {
           <li>
             <strong>PM-Kisan Helpline:</strong> 155261 or 1800-180-1551 <br />
             🌐{" "}
-            <a href="https://pmkisan.gov.in/" target="_blank" rel="noreferrer" className="text-green-700 underline">
+            <a
+              href="https://pmkisan.gov.in/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-green-700 underline"
+            >
               https://pmkisan.gov.in/
             </a>
           </li>
           <li>
             <strong>Farmer Portal:</strong>{" "}
-            <a href="https://farmer.gov.in/" target="_blank" rel="noreferrer" className="text-green-700 underline">
+            <a
+              href="https://farmer.gov.in/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-green-700 underline"
+            >
               https://farmer.gov.in/
             </a>
           </li>
           <li>
             <strong>CPGRAMS (Grievance Redressal):</strong>{" "}
-            <a href="https://pgportal.gov.in/" target="_blank" rel="noreferrer" className="text-green-700 underline">
+            <a
+              href="https://pgportal.gov.in/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-green-700 underline"
+            >
               https://pgportal.gov.in/
             </a>
           </li>
           <li>
             <strong>e-NAM (National Agriculture Market):</strong>{" "}
-            <a href="https://enam.gov.in/" target="_blank" rel="noreferrer" className="text-green-700 underline">
+            <a
+              href="https://enam.gov.in/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-green-700 underline"
+            >
               https://enam.gov.in/
             </a>
           </li>
           <li>
             <strong>Soil Health Card Portal:</strong>{" "}
-            <a href="https://soilhealth.dac.gov.in/" target="_blank" rel="noreferrer" className="text-green-700 underline">
+            <a
+              href="https://soilhealth.dac.gov.in/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-green-700 underline"
+            >
               https://soilhealth.dac.gov.in/
             </a>
           </li>
