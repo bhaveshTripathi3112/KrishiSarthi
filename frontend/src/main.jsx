@@ -9,7 +9,7 @@ import { Signup}  from './components/SignUp/SignUp'
 import { Contact } from './components/Contacts/Contacts'
 import { About } from './components/About/About'
 import {Scanner} from './components/PlantDisease/Scanner'
-
+import {Chatbot} from './components/Chatbot/Chatbot'
 
 
 
@@ -23,7 +23,7 @@ const router = createBrowserRouter(
       <Route path="scanner" element={<Scanner />} />
       <Route path="contact" element={<Contact />} />
       <Route path="about" element={<About />} />
-      
+      <Route path="chatbot" element = {<Chatbot/>} />
       <Route path="contact" element={<Contact />} />
       <Route path="about" element={<About />} />  
     </Route>
