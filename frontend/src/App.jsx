@@ -1,16 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Outlet, useLocation } from 'react-router-dom'
+import Header from './components/Header/Header'
 
-function App() {
-  const [count, setCount] = useState(0)
+import Footer from './components/Footer/Footer';
+export default function App() {
+  const location = useLocation();
+  const hideHeaderPaths = ['/login', '/signup']; // Add paths where header should be hidden
+  
+  const shouldShowHeader = !hideHeaderPaths.includes(location.pathname);
 
   return (
-    <>
-      <h1 className='text-green-700'> hello </h1>
-    </>
-  )
+    <div className="min-h-screen bg-gray-50">
+      {shouldShowHeader && <Header />}
+      
+        <Outlet />
+        <Footer/>
+  
+      
+    </div>
+  );
 }
-
-export default App
