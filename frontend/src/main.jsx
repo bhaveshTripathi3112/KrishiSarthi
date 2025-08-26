@@ -4,7 +4,8 @@ import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements, N
 import './index.css'
 import App from './App'
 import { Home } from './components/Home/Home'
-
+import  {Login}  from './components/Login/Login'
+import { Signup}  from './components/SignUp/SignUp'
 import { Contact } from './components/Contacts/Contacts'
 import { About } from './components/About/About'
 
@@ -15,7 +16,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="home" element={<Home />} />
-   
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
       
       <Route path="contact" element={<Contact />} />
       <Route path="about" element={<About />} />  
