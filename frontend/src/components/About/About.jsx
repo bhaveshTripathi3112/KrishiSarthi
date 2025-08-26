@@ -1,6 +1,4 @@
-// src/components/About.jsx
-
-import React from 'react';
+   import React from 'react';
 
 export function About() {
   return (
