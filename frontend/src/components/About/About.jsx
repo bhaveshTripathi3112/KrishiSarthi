@@ -6,42 +6,44 @@ export function About() {
     {
       name: "Gaurav Singh",
       role: "Frontend Developer",
-      img: "https://media.licdn.com/dms/image/v2/D5603AQHYvgUXI8C2vA/profile-displayphoto-shrink_800_800/0/1707729548174?e=1759363200&v=beta&t=hdqMIkQnKxoV5jKINsDJuVCnembRVl6nRrJdE7yivR0",
+      img: "https://media.licdn.com/dms/image/v2/D5603AQHYvgUXI8C2vA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1707729548174?e=1759363200&v=beta&t=q2LHnICOPZuxP-TThfqk7H8J5-vpjJ78P-1D1fIimo0",
       github: "https://github.com/gauravsinghshah",
       linkedin: "http://linkedin.com/in/gauravsinghshah/",
     },
     {
       name: "Paras Mehta",
       role: "Backend Developer",
-      img: "https://media.licdn.com/dms/image/v2/D5603AQFhYgnAEH164Q/profile-displayphoto-shrink_200_200/0/1704211979683?e=1759363200&v=beta&t=wfMP-T4qHmuiWl8FrfASrkvDFUmvFYq6iORrllq-wn8",
+      img: "https://media.licdn.com/dms/image/v2/D5603AQFhYgnAEH164Q/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1704211979683?e=1759363200&v=beta&t=wfMP-T4qHmuiWl8FrfASrkvDFUmvFYq6iORrllq-wn8",
       github: "https://github.com/Paras-Mehta007",
       linkedin: "https://www.linkedin.com/in/paras-mehta-69268a298/",
     },
-    {
-      name: "Yash Kirola",
-      role: "UI/UX Designer",
-      img: "https://media.licdn.com/dms/image/v2/D4D03AQF9qCML4F0tew/profile-displayphoto-shrink_200_200/0/1693825462834?e=1759363200&v=beta&t=Qf66N26UmO9KCm9g8p2C4EkndLncRhoU-3dJFsCwBgQ",
-      github: "https://github.com/Y45hK1r0l4",
-      linkedin: "https://www.linkedin.com/in/yash-kirola-06344127a/",
-    },
+
+  {
+  name: "Yash Kirola",
+  role: "UI/UX Designer",
+  img: "https://media.licdn.com/dms/image/v2/D4D03AQF9qCML4F0tew/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1693825462834?e=1759363200&v=beta&t=PrcbENF-GTnBuaDVLVDaPKrEQTIE1Y6YFsi3Dzl0iv8",
+  github: "https://github.com/Y45hK1r0l4",
+  linkedin: "https://www.linkedin.com/in/yash-kirola-06344127a/",
+},
+
+
     {
       name: "Bhavesh Tripathi",
       role: "Full Stack Developer",
-      img: "https://media.licdn.com/dms/image/v2/D4D03AQFUhZLL09BnTw/profile-displayphoto-scale_100_100/0/1752581995423?e=1759363200&v=beta&t=Crot8QveQC1sgsfyVAfZTsu0uHM856BAlbFyPmqOW5Y",
-      github: "https://github.com/bhaveshtripathi3112",
+      img: "https://media.licdn.com/dms/image/v2/D4D03AQFUhZLL09BnTw/profile-displayphoto-scale_200_200/B4DZgOBvLYGsAY-/0/1752581995423?e=1759363200&v=beta&t=ImIyfeZJjWjeY7mATF8APaSQfbxj4i56-1YEs5q9vT8",
       linkedin: "https://www.linkedin.com/in/bhavesh-tripathi-a69483309/",
     },
     {
       name: "Himadri Mehra",
       role: "Developer",
-      img: "https://media.licdn.com/dms/image/v2/D5603AQH6RYrp3DGzLA/profile-displayphoto-shrink_800_800/0/1709962072202?e=1759363200&v=beta&t=5zd8cAeYalNWmnAVdVfCBXvev31TLCDNpFHYXN-muVI",
+      img: "https://media.licdn.com/dms/image/v2/D5603AQH6RYrp3DGzLA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1709962072202?e=1759363200&v=beta&t=5zd8cAeYalNWmnAVdVfCBXvev31TLCDNpFHYXN-muVI",
       github: "https://github.com/Himadrimehra",
       linkedin: "https://www.linkedin.com/in/himadri-mehra-b164822a0/",
     },
     {
       name: "Kritika Tewari",
       role: "Developer",
-      img: "https://media.licdn.com/dms/image/v2/D4D03AQEjVoucC9GW2w/profile-displayphoto-shrink_800_800/0/1721202760749?e=1759363200&v=beta&t=TPnukNE6yWn8RWVhfMGVxL4TFZe5HhLt3oXKbxigwdY",
+      img: "https://media.licdn.com/dms/image/v2/D4D03AQEjVoucC9GW2w/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1721202760801?e=1759363200&v=beta&t=1GcVDdqWafqTLoMdxT6BVHQB8RxytdbZmyupl5UVmok",
       github: "https://github.com/kritikatewari981",
       linkedin: "https://www.linkedin.com/in/kritika-tewari-5b8819319/",
     },
