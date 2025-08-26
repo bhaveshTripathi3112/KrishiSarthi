@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import {connectDB} from "./config/connectDB.js"
 import cookieParser from "cookie-parser"
+import locationRouter from "./routes/location.routes.js"
 import authRouter from "./routes/auth.routes.js"
 import cors from "cors"
 import bodyParser from "body-parser"
@@ -23,6 +24,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use("/api",authRouter)
+app.use("/api/locations", locationRouter);
 app.get("/",(req,res) =>{
     res.send("Server is running")
 })
@@ -63,7 +65,7 @@ app.post("/api/chat", async (req, res) => {
     res.json({ reply: botReply });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ reply: "⚠️ Sorry, I couldn’t process your request right now." });
+    res.status(500).json({ reply: "Sorry, I couldn’t process your request right now." });
   }
 });
 

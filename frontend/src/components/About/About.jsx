@@ -18,14 +18,13 @@ export function About() {
       linkedin: "https://www.linkedin.com/in/paras-mehta-69268a298/",
     },
 
-  {
-  name: "Yash Kirola",
-  role: "UI/UX Designer",
-  img: "https://media.licdn.com/dms/image/v2/D4D03AQF9qCML4F0tew/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1693825462834?e=1759363200&v=beta&t=PrcbENF-GTnBuaDVLVDaPKrEQTIE1Y6YFsi3Dzl0iv8",
-  github: "https://github.com/Y45hK1r0l4",
-  linkedin: "https://www.linkedin.com/in/yash-kirola-06344127a/",
-},
-
+    {
+    name: "Yash Kirola",
+    role: "UI/UX Designer",
+    img: "https://media.licdn.com/dms/image/v2/D4D03AQF9qCML4F0tew/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1693825462834?e=1759363200&v=beta&t=PrcbENF-GTnBuaDVLVDaPKrEQTIE1Y6YFsi3Dzl0iv8",
+    github: "https://github.com/Y45hK1r0l4",
+    linkedin: "https://www.linkedin.com/in/yash-kirola-06344127a/",
+    },
 
     {
       name: "Bhavesh Tripathi",
@@ -54,10 +53,10 @@ export function About() {
       {/* Header Section */}
       <header className="mb-12 text-center">
         <h1 className="text-4xl md:text-5xl font-extrabold text-green-700">
-          <span className="text-gray-900">🌱</span> About KrishiSarthi
+          <span className="text-gray-900"></span> About KrishiSarthi
         </h1>
         <p className="mt-2 text-xl font-medium text-gray-800">
-          🌾 Predict. Protect. Prosper.
+          Predict. Protect. Prosper.
         </p>
         <p className="mt-1 text-lg text-gray-600 max-w-2xl mx-auto">
           Smart farming solutions for a sustainable future.
@@ -83,12 +82,12 @@ export function About() {
       {/* Features */}
       <section className="mb-12">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 border-b-2 border-green-500 pb-2">
-          🚜 What KrishiSarthi Offers
+      What KrishiSarthi Offers
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl">
             <h3 className="text-xl font-semibold text-green-600 mb-2">
-              🌱 AI-Based Crop Recommendation
+              AI-Based Crop Recommendation
             </h3>
             <p className="text-gray-600 text-sm">
               Suggests the most suitable crops based on soil data, weather, and history to maximize yield.
@@ -96,7 +95,7 @@ export function About() {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl">
             <h3 className="text-xl font-semibold text-green-600 mb-2">
-              🌿 AI-Powered Crop Disease Detection
+              AI-Powered Crop Disease Detection
             </h3>
             <p className="text-gray-600 text-sm">
               Upload a picture of a leaf, and KrishiSarthi identifies the disease with treatment suggestions.
@@ -104,7 +103,7 @@ export function About() {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl">
             <h3 className="text-xl font-semibold text-green-600 mb-2">
-              ☁ Hyper-local Weather Forecasts
+              Hyper-local Weather Forecasts
             </h3>
             <p className="text-gray-600 text-sm">
               Location-based forecasts help farmers plan sowing, irrigation, and harvesting.
@@ -112,7 +111,7 @@ export function About() {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl">
             <h3 className="text-xl font-semibold text-green-600 mb-2">
-              🤖 24/7 AI Chatbot Assistance
+              24/7 AI Chatbot Assistance
             </h3>
             <p className="text-gray-600 text-sm">
               Multilingual chatbot (English & Hindi) available round-the-clock for queries.
@@ -120,7 +119,7 @@ export function About() {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl">
             <h3 className="text-xl font-semibold text-green-600 mb-2">
-              🗺 Community-Driven Heatmap
+              Community-Driven Heatmap
             </h3>
             <p className="text-gray-600 text-sm">
               Farmers contribute reports to build a live outbreak map for early warnings.
