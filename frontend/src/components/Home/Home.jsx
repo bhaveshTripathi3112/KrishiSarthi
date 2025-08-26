@@ -2,7 +2,7 @@ import React from 'react';
 import homeImage from '/src/assets/hero-image.jpeg'; // Ensure you have an appropriate image in the assets folder
 import { Link } from 'react-router-dom';
 
-// SVG Icon Components for clarity
+
 const DetectIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -25,7 +25,7 @@ const DefendIcon = () => (
 export function Home() {
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Hero Section */}
+        
             <section className="relative overflow-hidden">
                 <div className="container mx-auto px-4 py-16 lg:py-24">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -41,10 +41,10 @@ export function Home() {
                                     to="/scanner"
                                     className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300"
                                 >
-                                  Recommend Me  
+                                 Scan for Disease
                                 </Link>
                                 <Link
-                                    to="/crop-recommendation" // Assuming this is the new route
+                                    to="/crop-recommendation" 
                                     className="px-6 py-3 border border-green-600 text-green-600 rounded-lg hover:bg-green-50 transition duration-300"
                                 >
                                     Get Crop Advice
@@ -62,10 +62,10 @@ export function Home() {
                 </div>
             </section>
 
-            {/* Features Section */}
+        
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    {/* UPDATED SECTION TITLE AND CONTENT */}
+                    
                     <h2 className="text-3xl font-bold text-center mb-12">How कृषिSarthi Helps You</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <FeatureCard 
