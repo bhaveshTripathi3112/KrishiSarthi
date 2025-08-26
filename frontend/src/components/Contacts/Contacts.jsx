@@ -2,120 +2,177 @@ import React, { useState } from "react";
 
 const ContactPage = () => {
   const [form, setForm] = useState({ name: "", contact: "", message: "" });
+  const [errors, setErrors] = useState({});
 
+  // Handle input changes
   const handleChange = (e) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // Basic validation
+  const validateForm = () => {
+    const newErrors = {};
+    if (!form.name.trim()) newErrors.name = "Name is required";
+    if (!form.contact.trim()) {
+      newErrors.contact = "Phone or Email is required";
+    } else if (
+      !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.contact) &&
+      !/^\d{10}$/.test(form.contact)
+    ) {
+      newErrors.contact = "Enter a valid email or 10-digit phone number";
+    }
+    if (!form.message.trim()) newErrors.message = "Message cannot be empty";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your form submission logic here, e.g., API call
-    alert("Thanks for your query! We'll get back to you soon.");
+    if (!validateForm()) return;
+
+    // 🔗 API call or backend integration can go here
+    alert("✅ Thanks for your query! We'll get back to you soon.");
     setForm({ name: "", contact: "", message: "" });
   };
 
   return (
-    <div style={{ maxWidth: 900, margin: "auto", padding: 20, fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif" }}>
-      <h1>📞 Contact Us</h1>
-      <p>
-        At <strong>कृषिSarthi (KrishiSarthi)</strong>, our goal is to empower farmers with digital solutions for crop protection, weather insights, and farming guidance.
-        If you have any questions, suggestions, or feedback, please get in touch with us.
+    <div className="max-w-4xl mx-auto p-6 font-sans text-gray-800">
+      {/* Header */}
+      <h1 className="text-3xl font-bold mb-4">📞 Contact Us</h1>
+      <p className="mb-8 leading-relaxed">
+        At <strong>कृषिSarthi (KrishiSarthi)</strong>, our goal is to empower
+        farmers with digital solutions for crop protection, weather insights,
+        and farming guidance. If you have any questions, suggestions, or
+        feedback, please get in touch with us.
       </p>
 
-      <h2>👨‍💻 Contact the Developers</h2>
-      <p><strong>Team Name:</strong> Mythical Coders</p>
-      <p>
-        📧 Email (Team):{" "}
-        <a href="mailto:mythicalcoders.team@gmail.com" style={{ color: "#2e7d32" }}>
-          mythicalcoders.team@gmail.com
-        </a>
-      </p>
-      <p>📍 Location: Graphic Era Hill University, Bhimtal</p>
+      {/* Developer Info */}
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-2">👨‍💻 Contact the Developers</h2>
+        <p><strong>Team Name:</strong> Mythical Coders</p>
+        <p>
+          📧 Email:{" "}
+          <a href="mailto:mythicalcoders.team@gmail.com" className="text-green-700 underline">
+            mythicalcoders.team@gmail.com
+          </a>
+        </p>
+        <p>📍 Location: Graphic Era Hill University, Bhimtal</p>
 
-      <p><strong>Team Members:</strong></p>
-      <ul>
-        <li>Gaurav Singh (Team Leader)</li>
-        <li>Paras Mehta</li>
-        <li>Yash Kirola</li>
-        <li>Bhavesh Tripathi</li>
-        <li>Himadri Mehra</li>
-        <li>Kritika Tewari</li>
-      </ul>
+        <p className="mt-2 font-medium">Team Members:</p>
+        <ul className="list-disc list-inside">
+          <li>Gaurav Singh (Team Leader)</li>
+          <li>Paras Mehta</li>
+          <li>Yash Kirola</li>
+          <li>Bhavesh Tripathi</li>
+          <li>Himadri Mehra</li>
+          <li>Kritika Tewari</li>
+        </ul>
+      </section>
 
-      <h2>📝 Submit Your Query to Us</h2>
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 15, marginBottom: 40 }}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name *"
-          value={form.name}
-          onChange={handleChange}
-          required
-          style={{ padding: 10, fontSize: 16 }}
-        />
-        <input
-          type="text"
-          name="contact"
-          placeholder="Phone / Email *"
-          value={form.contact}
-          onChange={handleChange}
-          required
-          style={{ padding: 10, fontSize: 16 }}
-        />
-        <textarea
-          name="message"
-          placeholder="Your Message *"
-          rows={5}
-          value={form.message}
-          onChange={handleChange}
-          required
-          style={{ padding: 10, fontSize: 16, resize: "vertical" }}
-        />
-        <button type="submit" style={{ backgroundColor: "#2e7d32", color: "white", padding: 12, fontSize: 16, border: "none", cursor: "pointer" }}>
-          Submit
-        </button>
-      </form>
+      {/* Contact Form */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-semibold mb-4">📝 Submit Your Query</h2>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div>
+            <input
+              type="text"
+              name="name"
+              placeholder="Name *"
+              value={form.name}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-md"
+              required
+            />
+            {errors.name && <p className="text-red-600 text-sm">{errors.name}</p>}
+          </div>
 
-      <h2>🌐 Government Support Portals</h2>
-      <p>
-        If you face serious issues like exploitation, unfair pricing, or fraud, you can directly contact these official government platforms for help and grievance redressal:
-      </p>
-      <ul style={{ fontSize: 16, lineHeight: 1.8 }}>
-        <li>
-          <span role="img" aria-label="phone">📞</span> Kisan Call Centre (KCC) Toll-Free Helpline: 1800-180-1551<br />
-          <span role="img" aria-label="clock">🕘</span> Available: 6 AM – 10 PM, all 7 days<br />
-          💡 Talk to agriculture experts in your local language.
-        </li>
-        <li>
-          <strong>PM-Kisan Helpline</strong><br/>
-          📞 155261 or 1800-180-1551<br/>
-          🌐 <a href="https://pmkisan.gov.in/" target="_blank" rel="noreferrer" style={{ color: "#2e7d32" }}>https://pmkisan.gov.in/</a><br/>
-          (For PM-Kisan scheme issues, fund transfers, registration help.)
-        </li>
-        <li>
-          <strong>Farmer Portal (Government of India)</strong><br/>
-          🌐 <a href="https://farmer.gov.in/" target="_blank" rel="noreferrer" style={{ color: "#2e7d32" }}>https://farmer.gov.in/</a><br/>
-          (Access schemes, subsidies, crop advisories, and official updates.)
-        </li>
-        <li>
-          <strong>Central Public Grievance Redressal (CPGRAMS)</strong><br/>
-          🌐 <a href="https://pgportal.gov.in/" target="_blank" rel="noreferrer" style={{ color: "#2e7d32" }}>https://pgportal.gov.in/</a><br/>
-          (Register complaints against unfair practices, middlemen exploitation, or delays in government services.)
-        </li>
-        <li>
-          <strong>e-NAM (National Agriculture Market)</strong><br/>
-          🌐 <a href="https://enam.gov.in/" target="_blank" rel="noreferrer" style={{ color: "#2e7d32" }}>https://enam.gov.in/</a><br/>
-          (Check transparent crop pricing, sell produce, and prevent exploitation in mandis.)
-        </li>
-        <li>
-          <strong>Soil Health Card Portal</strong><br/>
-          🌐 <a href="https://soilhealth.dac.gov.in/" target="_blank" rel="noreferrer" style={{ color: "#2e7d32" }}>https://soilhealth.dac.gov.in/</a><br/>
-          (Get soil reports and official recommendations for better crop productivity.)
-        </li>
-      </ul>
+          <div>
+            <input
+              type="text"
+              name="contact"
+              placeholder="Phone / Email *"
+              value={form.contact}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-md"
+              required
+            />
+            {errors.contact && <p className="text-red-600 text-sm">{errors.contact}</p>}
+          </div>
 
-      <p style={{ textAlign: "center", marginTop: 40, fontSize: 14, color: "#666" }}>
-        ✨ Made with ❤️ by Team Mythical Coders for India’s Farmers
+          <div>
+            <textarea
+              name="message"
+              placeholder="Your Message *"
+              rows={5}
+              value={form.message}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-md resize-y"
+              required
+            />
+            {errors.message && <p className="text-red-600 text-sm">{errors.message}</p>}
+          </div>
+
+          <button
+            type="submit"
+            className="bg-green-700 text-white py-3 rounded-md hover:bg-green-800 transition"
+          >
+            Submit
+          </button>
+        </form>
+      </section>
+
+      {/* Government Portals */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">🌐 Government Support Portals</h2>
+        <p className="mb-4">
+          If you face serious issues like exploitation, unfair pricing, or fraud,
+          you can directly contact these official government platforms:
+        </p>
+        <ul className="space-y-4">
+          <li>
+            📞 <strong>Kisan Call Centre:</strong> 1800-180-1551 <br />
+            🕘 Available: 6 AM – 10 PM, all 7 days <br />
+            💡 Talk to agriculture experts in your local language.
+          </li>
+          <li>
+            <strong>PM-Kisan Helpline:</strong> 155261 or 1800-180-1551 <br />
+            🌐{" "}
+            <a href="https://pmkisan.gov.in/" target="_blank" rel="noreferrer" className="text-green-700 underline">
+              https://pmkisan.gov.in/
+            </a>
+          </li>
+          <li>
+            <strong>Farmer Portal:</strong>{" "}
+            <a href="https://farmer.gov.in/" target="_blank" rel="noreferrer" className="text-green-700 underline">
+              https://farmer.gov.in/
+            </a>
+          </li>
+          <li>
+            <strong>CPGRAMS (Grievance Redressal):</strong>{" "}
+            <a href="https://pgportal.gov.in/" target="_blank" rel="noreferrer" className="text-green-700 underline">
+              https://pgportal.gov.in/
+            </a>
+          </li>
+          <li>
+            <strong>e-NAM (National Agriculture Market):</strong>{" "}
+            <a href="https://enam.gov.in/" target="_blank" rel="noreferrer" className="text-green-700 underline">
+              https://enam.gov.in/
+            </a>
+          </li>
+          <li>
+            <strong>Soil Health Card Portal:</strong>{" "}
+            <a href="https://soilhealth.dac.gov.in/" target="_blank" rel="noreferrer" className="text-green-700 underline">
+              https://soilhealth.dac.gov.in/
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      {/* Footer */}
+      <p className="text-center mt-12 text-sm text-gray-600">
+        ✨ Made with ❤ by Team Mythical Coders for India’s Farmers
       </p>
     </div>
   );
