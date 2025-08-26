@@ -108,7 +108,7 @@ export function About() {
           KrishiSarthi is developed by Team Mythical Coders, a passionate group of innovators committed to creating meaningful technology for real-world problems.
         </p>
         <div className="flex flex-wrap justify-center gap-4 text-center text-lg font-medium text-green-700">
-          <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Gaurav Singh (Team Leader)</p>
+          <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Gaurav Singh </p>
           <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Paras Mehta</p>
           <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Yash Kirola</p>
           <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Bhavesh Tripathi</p>
