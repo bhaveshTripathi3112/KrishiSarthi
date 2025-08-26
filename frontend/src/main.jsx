@@ -9,11 +9,10 @@ import { Signup}  from './components/SignUp/SignUp'
 import { Contact } from './components/Contacts/Contacts'
 import { About } from './components/About/About'
 import {Scanner} from './components/PlantDisease/Scanner'
-<<<<<<< HEAD
 import { CropRecommendation } from './components/CropRecommendation/CropRecommendation'
-=======
+
 import {Chatbot} from './components/Chatbot/Chatbot'
->>>>>>> 5df60c93e8d3e9bb44d2a2dc95d56f11deb05266
+
 
 
 

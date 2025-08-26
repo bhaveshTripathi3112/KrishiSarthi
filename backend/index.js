@@ -6,7 +6,10 @@ import authRouter from "./routes/auth.routes.js"
 import cors from "cors"
 import bodyParser from "body-parser"
 import {GoogleGenAI} from "@google/genai"
+import fetch from "node-fetch"
 dotenv.config()
+
+
 
 const app = express()
 
@@ -17,7 +20,7 @@ app.use(cookieParser())
 app.use(cors({
     origin:"http://localhost:5173",
     credentials:true
-}))
+}));
 app.use(bodyParser.json());
 app.use("/api",authRouter)
 app.get("/",(req,res) =>{
@@ -63,6 +66,32 @@ app.post("/api/chat", async (req, res) => {
     res.status(500).json({ reply: "⚠️ Sorry, I couldn’t process your request right now." });
   }
 });
+
+const SOILGRID_URL = "https://rest.isric.org/soilgrids/v2.0/properties/query";
+
+app.get("/api/soil", async (req, res) => {
+  const { lat, lon } = req.query;
+
+  if (!lat || !lon) {
+    return res.status(400).json({ error: "lat and lon are required." });
+  }
+
+  try {
+    const url = `${SOILGRID_URL}?lon=${lon}&lat=${lat}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      return res.status(502).json({ error: "SoilGrids API error." });
+    }
+
+    const soilData = await response.json();
+    res.json({ soil: soilData });
+  } catch (err) {
+    console.error("Backend error:", err.message);
+    res.status(500).json({ error: "Internal server error." });
+  }
+});
+
 
 app.listen(port , ()=>{
     connectDB()

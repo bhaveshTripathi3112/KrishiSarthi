@@ -1,5 +1,5 @@
 import React, { useContext , useEffect } from 'react'
-import homeImage from '/src/assets/hero-image.jpeg' // Ensure you have an appropriate image in the assets folder
+import homeImage from '/src/assets/hero-image.jpeg' 
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { dataContext } from '../../contexts/UserContext';
