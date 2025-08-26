@@ -9,7 +9,11 @@ import { Signup}  from './components/SignUp/SignUp'
 import { Contact } from './components/Contacts/Contacts'
 import { About } from './components/About/About'
 import {Scanner} from './components/PlantDisease/Scanner'
+
+import { CropRecommendation } from './components/CropRecommendation/CropRecommendation'
+
 import {Chatbot} from './components/Chatbot/Chatbot'
+
 
 
 
@@ -26,6 +30,8 @@ const router = createBrowserRouter(
       <Route path="chatbot" element = {<Chatbot/>} />
       <Route path="contact" element={<Contact />} />
       <Route path="about" element={<About />} />  
+
+      <Route path="crop-recommendation" element={<CropRecommendation />} />
     </Route>
   )
 )
