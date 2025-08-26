@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from 'react-router-dom'
 import './index.css'
 import App from './App'
+import './i18n'
 
 // ✅ Keep named imports where you actually exported them as named
 import { Home } from './components/Home/Home'

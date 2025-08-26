@@ -2,31 +2,60 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CameraCapture } from '../Camera/Camera';
 import { useHeatmap } from '../../contexts/HeatmapContext';
+
 export function Scanner() {
     const { addDiseaseData, recentDiseaseAdded, diseaseData } = useHeatmap();
-
+    
     const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedFile, setSelectedFile] = useState(null);
     const [showCamera, setShowCamera] = useState(false);
     const [loading, setLoading] = useState(false);
     const [scanResult, setScanResult] = useState(null);
     const [error, setError] = useState(null);
     const [userLocation, setUserLocation] = useState(null);
     const [heatmapStatus, setHeatmapStatus] = useState('');
-    const [geminiResponse, setGeminiResponse] = useState(null);
 
-    const mlEndpoint = "https://plant-disease-prediction-krishisharthi.onrender.com/predict/"
     useEffect(() => {
         getUserLocation();
     }, []);
 
+    useEffect(() => {
+        if (recentDiseaseAdded) {
+            setHeatmapStatus(`✅ ${recentDiseaseAdded.diseaseType} added successfully!`);
+            setTimeout(() => setHeatmapStatus(''), 5000);
+        }
+    }, [recentDiseaseAdded]);
+
+    useEffect(() => {
+        if (scanResult && scanResult.confidence >= 0.90 && userLocation) {
+            const isDisease = isDiseaseDetected(scanResult.class);
+            if (isDisease) {
+                handleHeatmapUpdate();
+            }
+        }
+    }, [scanResult, userLocation]);
+
+    const handleHeatmapUpdate = async () => {
+        try {
+            setHeatmapStatus('📍 Adding to heatmap...');
+            await addDiseaseData({
+                class: scanResult.class,
+                confidence: scanResult.confidence
+            }, userLocation);
+        } catch (error) {
+            console.error('❌ Failed to add disease:', error);
+            setHeatmapStatus('❌ Failed to add disease');
+        }
+    };
+
     const getUserLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                (position) => setUserLocation({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                }),
+                (position) => {
+                    setUserLocation({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    });
+                },
                 (error) => console.error('Location error:', error)
             );
         }
@@ -35,72 +64,40 @@ export function Scanner() {
     const isDiseaseDetected = (className) => {
         if (!className) return false;
         const lowerCase = className.toLowerCase();
-        const healthyIndicators = ['healthy','normal','good','fine'];
-        if (healthyIndicators.some(indicator => lowerCase.includes(indicator))) return false;
-
-        const diseaseIndicators = ['blight','spot','rot','rust','mildew','wilt','scab','disease','infection','pathogen'];
+        const healthyIndicators = ['healthy', 'normal', 'good', 'fine'];
+        if (healthyIndicators.some(indicator => lowerCase.includes(indicator))) {
+            return false;
+        }
+        const diseaseIndicators = [
+            'blight', 'spot', 'rot', 'rust', 'mildew', 'wilt', 'scab',
+            'disease', 'infection', 'pathogen'
+        ];
         return diseaseIndicators.some(indicator => lowerCase.includes(indicator));
     };
 
-    const handleHeatmapUpdate = async () => {
-        if (!scanResult || !userLocation) return;
-        try {
-            setHeatmapStatus('📍 Adding to heatmap...');
-            await addDiseaseData({
-                class: scanResult.class,
-                confidence: scanResult.confidence
-            }, userLocation);
-            setHeatmapStatus(` ${scanResult.class} added successfully!`);
-            setTimeout(() => setHeatmapStatus(''), 5000);
-        } catch (err) {
-            console.error('❌ Failed to add disease:', err);
-            setHeatmapStatus('❌ Failed to add disease');
-        }
-    };
-
-    const fetchGeminiResponse = async (diseaseName) => {
-        try {
-            if (!diseaseName) return;
-            setGeminiResponse(' Fetching disease info...');
-            const res = await axios.post("http://localhost:8000/api/gemini", { diseaseName });
-            setGeminiResponse(res.data.text);
-        } catch (err) {
-            console.error("Gemini API error:", err);
-            setGeminiResponse(`Failed to fetch info: ${err.response?.data?.error || err.message}`);
-        }
-    };
-
     const handleScan = async () => {
-        if (!selectedFile) return;
+        if (!selectedImage) return;
         setLoading(true);
         setScanResult(null);
         setError(null);
-        setGeminiResponse(null);
 
         try {
-            // 1️⃣ Send image to ML model
-            const formData = new FormData();
-            formData.append('file', selectedFile);
+            const apiEndpoint = import.meta.env.VITE_PLANT_API_ENDPOINT;
+            if (!apiEndpoint) {
+                throw new Error("API endpoint not configured");
+            }
 
-            const result = await axios.post(mlEndpoint, formData, {
+            const response = await fetch(selectedImage);
+            const blob = await response.blob();
+            const formData = new FormData();
+            formData.append('file', blob, 'crop_image.jpg');
+
+            const result = await axios.post(apiEndpoint, formData, {
+                timeout: 30000,
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            // 2️⃣ Clean disease name
-            const rawName = result.data.class;
-            const confidence = result.data.confidence;
-            const diseaseName = rawName.split('___')[1]?.replace(/_/g, ' ') || rawName;
-
-            setScanResult({ class: diseaseName, confidence });
-
-            // 3️⃣ Update heatmap if disease detected
-            if (confidence >= 0.9 && isDiseaseDetected(diseaseName) && userLocation) {
-                handleHeatmapUpdate();
-            }
-
-            // 4️⃣ Fetch Gemini recommendation
-            fetchGeminiResponse(diseaseName);
-
+            setScanResult(result.data);
         } catch (err) {
             setError(`Scan failed: ${err.message}`);
         } finally {
@@ -111,7 +108,6 @@ export function Scanner() {
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setSelectedFile(file);
             const reader = new FileReader();
             reader.onloadend = () => setSelectedImage(reader.result);
             reader.readAsDataURL(file);
@@ -121,8 +117,8 @@ export function Scanner() {
     return (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold mb-8 text-center">Plant Disease Scanner</h1>
+            
             <div className="max-w-2xl mx-auto">
-
                 <div className="mb-4 p-3 bg-blue-100 text-blue-800 rounded-lg text-sm">
                     <strong>Status:</strong> {diseaseData.length} diseases stored
                     <br />
@@ -162,7 +158,7 @@ export function Scanner() {
                     </label>
                 </div>
 
-                {selectedFile && (
+                {selectedImage && (
                     <button
                         onClick={handleScan}
                         disabled={loading}
@@ -185,21 +181,11 @@ export function Scanner() {
                         <p><strong>Confidence:</strong> {(scanResult.confidence * 100).toFixed(1)}%</p>
                     </div>
                 )}
-
-                {geminiResponse && (
-                    <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
-                        <h3 className="text-lg font-semibold">Disease Info & Prevention:</h3>
-                        <p>{geminiResponse}</p>
-                    </div>
-                )}
             </div>
 
             {showCamera && (
                 <CameraCapture
-                    onCapture={(img, file) => {
-                        setSelectedImage(img);
-                        setSelectedFile(file);
-                    }}
+                    onCapture={setSelectedImage}
                     onClose={() => setShowCamera(false)}
                 />
             )}

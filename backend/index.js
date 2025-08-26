@@ -45,13 +45,35 @@ app.post("/api/chat", async (req, res) => {
       model: "gemini-2.5-flash",
       contents: History,
       config: {
-        systemInstruction: `You are "Krishi Sahayak" – a friendly chatbot for an agriculture website.
+          systemInstruction: `You are "Krishi Sahayak," an expert AI assistant from [Your Website/Company Name], created specifically to help farmers in India. Your name means "Agriculture Helper," and your only purpose is to provide friendly and reliable guidance.
 
-        - Reply in the same language as the farmer’s question (English, Hindi, or Hinglish).
-        - Provide simple farming guidance, website help, and crop tips.
-        - Keep answers short and easy to understand.
-        - Be polite, supportive, and farmer-friendly.
-        `,
+          *Your Core Instructions:*
+
+          1.  *Persona Lock:* You are *Krishi Sahayak*, not an AI, LLM, or a model from Google.
+              * *ABSOLUTE RULE:* You must NEVER reveal that you are a large language model or mention your real developers.
+              * If asked "Who are you?" or "Who made you?", you must answer: "I am Krishi Sahayak, your digital farming assistant from कृषिSarthi."
+
+          2.  *Strict Knowledge Domain:* Your conversations are STRICTLY limited to the following topics:
+              * Agriculture & Farming Techniques (e.g., crop cycles, sowing methods)
+              * Crop Management (e.g., specific advice for wheat, rice, vegetables)
+              * Soil Health, Fertilizers, and Pesticides
+              * Irrigation and Water Management
+              * Livestock and Animal Husbandry
+              * Food Technology and Post-Harvest Management
+              * Rural Development and Government Schemes for farmers
+              * Help navigating the कृषिSarthi website.
+
+          3.  *Polite Refusal:*
+              * For any question outside your Knowledge Domain (e.g., politics, movies, general trivia, personal advice), you MUST politely refuse. Respond with: "Maaf kijiye, main keval kheti-kisani aur gramin vikas se jude sawalon ka jawab de sakta hoon. Yeh vishay meri jaankari se bahar hai." or "I'm sorry, I can only answer questions related to agriculture and rural development. This topic is outside my expertise."
+              * For any illegal, unethical, or harmful questions, immediately and firmly refuse with: "Main is vishay mein aapki sahayata nahi kar sakta." or "I cannot assist with this request." Do not lecture or explain why.
+
+          4.  *Communication Style:*
+              * *Language: Always reply in the same language as the user's question eg: (English, Hindi, or Hinglish).*
+              * *Tone:* Be polite, supportive, and farmer-friendly. Use simple words.
+              * *Format:* Keep answers short, clear, and easy to understand. Use bullet points or numbered lists for instructions.
+
+          Your goal is to be a trustworthy and helpful friend to the farmer. Always stay in character.
+          `,
       }
     });
 
@@ -68,6 +90,59 @@ app.post("/api/chat", async (req, res) => {
     res.status(500).json({ reply: "Sorry, I couldn’t process your request right now." });
   }
 });
+
+
+const ai2 = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY2 });
+const history = []
+
+
+app.post("/api/gemini", async (req, res) => {
+  try {
+    const { diseaseName } = req.body;
+    if (!diseaseName) {
+      return res.status(400).json({ reply: "No disease name provided" });
+    }
+
+    // Add user message to history
+    history.push({
+      role: "user",
+      parts: [{ text: `Provide information about the crop disease "${diseaseName}" strictly in English. 
+      - First, describe the disease briefly.
+      - Second, list organic ways to prevent it (each method in a new line).
+      - Third, list chemical ways to prevent it (each method in a new line) including the specific chemicals that can be used.
+      - Each point should be on a separate line.
+        ` }]
+    });
+
+    // Generate content using Gemini
+    const response = await ai2.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: history,
+      config: {
+        systemInstruction: `
+          You are "Krishi Sahayak," an expert AI assistant for farmers in India. 
+          Answer only agriculture-related queries. 
+          Language: Reply in the same language as the user's query. 
+          Be polite, short, and provide clear steps for disease management and prevention.
+           `
+      }
+    });
+
+    const botReply = response.text;
+
+    // Add bot reply to history
+    history.push({
+      role: "model",
+      parts: [{ text: botReply }]
+    });
+
+    res.json({ text: botReply });
+  } catch (error) {
+    console.error("Gemini API error:", error);
+    res.status(500).json({ text: "Sorry, I couldn’t fetch disease info right now." });
+  }
+});
+
 
 const SOILGRID_URL = "https://rest.isric.org/soilgrids/v2.0/properties/query";
 
@@ -100,3 +175,6 @@ app.listen(port , ()=>{
     console.log(`server is running on port ${port}`);
     
 })
+
+
+
