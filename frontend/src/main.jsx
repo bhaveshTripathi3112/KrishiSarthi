@@ -13,6 +13,10 @@ import { Scanner } from './components/PlantDisease/Scanner'
 import { CropRecommendation } from './components/CropRecommendation/CropRecommendation'
 import { Chatbot } from './components/Chatbot/Chatbot'
 
+import { HeatmapProvider } from './contexts/HeatmapContext'
+import { DynamicHeatMap } from './components/HeatMap/DynamicHeatMap'
+
+
 // ✅ Import default for Contacts.jsx
 import ContactPage from './components/Contacts/Contacts'
 
@@ -23,6 +27,7 @@ const router = createBrowserRouter(
       <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
+      <Route path="heatmap" element={<DynamicHeatMap />} />  {/* Separate HeatMap route */}
       <Route path="scanner" element={<Scanner />} />
       <Route path="contact" element={<ContactPage />} />
       <Route path="about" element={<About />} />
@@ -34,6 +39,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+      <HeatmapProvider>
+        <RouterProvider router={router} />
+      </HeatmapProvider>
   </StrictMode>
 )
