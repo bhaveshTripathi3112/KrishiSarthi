@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import React from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-=======
-import React from 'react';
->>>>>>> 16f96034537aef918d105cea7967465decb803de
-
 
 export function About() {
   const team = [
@@ -184,18 +179,13 @@ export function About() {
       {/* Team Section */}
       <section className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 border-b-2 border-green-500 pb-2">
-<<<<<<< HEAD
           Meet the Team – Mythical Coders
-=======
-           Meet the Team – Mythical Coders
->>>>>>> 16f96034537aef918d105cea7967465decb803de
         </h2>
         <p className="text-gray-700 mb-8 max-w-2xl mx-auto">
           KrishiSarthi is developed by Team Mythical Coders, a passionate group
           of innovators committed to creating meaningful technology for
           real-world problems.
         </p>
-<<<<<<< HEAD
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {team.map((member, index) => (
@@ -230,15 +220,6 @@ export function About() {
               </div>
             </div>
           ))}
-=======
-        <div className="flex flex-wrap justify-center gap-4 text-center text-lg font-medium text-green-700">
-          <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Gaurav Singh </p>
-          <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Paras Mehta</p>
-          <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Yash Kirola</p>
-          <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Bhavesh Tripathi</p>
-          <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Himadri Mehra</p>
-          <p className="bg-green-100 px-4 py-2 rounded-full shadow-sm">Kritika Tewari</p>
->>>>>>> 16f96034537aef918d105cea7967465decb803de
         </div>
       </section>
     </div>
