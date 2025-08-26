@@ -15,7 +15,7 @@ const ContactPage = () => {
     if (!form.contact.trim()) {
       newErrors.contact = "Phone or Email is required";
     } else if (
-      !/^[\w.-]+@([\w.-]+\.[A-Za-z]{2,})$/.test(form.contact) && // ✅ improved regex
+      !/^[\w.-]+@([\w.-]+\.[A-Za-z]{2,})$/.test(form.contact) && 
       !/^\d{10}$/.test(form.contact)
     ) {
       newErrors.contact = "Enter a valid email or 10-digit phone number";
@@ -31,7 +31,7 @@ const ContactPage = () => {
     e.preventDefault();
     if (!validateForm()) return;
 
-    alert("✅ Thanks for your query! We'll get back to you soon.");
+    alert("Thanks for your query! We'll get back to you soon.");
     setForm({ name: "", contact: "", message: "" });
   };
 
@@ -49,12 +49,12 @@ const ContactPage = () => {
         <h2 className="text-2xl font-semibold mb-2">👨‍💻 Contact the Developers</h2>
         <p><strong>Team Name:</strong> Mythical Coders</p>
         <p>
-          📧 Email:{" "}
+          Email:{" "}
           <a href="mailto:mythicalcoders.team@gmail.com" className="text-green-700 underline">
             mythicalcoders.team@gmail.com
           </a>
         </p>
-        <p>📍 Location: Graphic Era Hill University, Bhimtal</p>
+        <p>Location: Graphic Era Hill University, Bhimtal</p>
         <ul className="list-disc list-inside mt-2">
           <li>Gaurav Singh (Team Leader)</li>
           <li>Paras Mehta</li>
@@ -67,7 +67,7 @@ const ContactPage = () => {
 
       {/* Query Form */}
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">📝 Submit Your Query</h2>
+        <h2 className="text-2xl font-semibold mb-4">Submit Your Query</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label className="block mb-1">Name *</label>
@@ -131,7 +131,7 @@ const ContactPage = () => {
       </section>
 
       <p className="text-center mt-12 text-sm text-gray-600">
-        ✨ Made with ❤ by Team Mythical Coders for India’s Farmers
+        Made by Team Mythical Coders for India’s Farmers
       </p>
     </div>
   );

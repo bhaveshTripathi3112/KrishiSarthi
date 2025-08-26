@@ -27,10 +27,10 @@ const Location = mongoose.model('Location', locationSchema);
 router.get('/', async (req, res) => {
   try {
     const locations = await Location.find({});
-    console.log(`📊 GET: Fetched ${locations.length} locations from MongoDB`);
+    console.log(`GET: Fetched ${locations.length} locations from MongoDB`);
     res.json(locations);
   } catch (error) {
-    console.error('❌ GET Error:', error);
+    console.error('GET Error:', error);
     res.status(500).json({ error: 'Failed to fetch locations' });
   }
 });
@@ -38,15 +38,15 @@ router.get('/', async (req, res) => {
 // POST new location
 router.post('/', async (req, res) => {
   try {
-    console.log('📤 POST: Received data:', req.body);
+    console.log('POST: Received data:', req.body);
     
     const newLocation = new Location(req.body);
     const savedLocation = await newLocation.save();
     
-    console.log('✅ POST: Saved to MongoDB:', savedLocation._id);
+    console.log('POST: Saved to MongoDB:', savedLocation._id);
     res.status(201).json(savedLocation);
   } catch (error) {
-    console.error('❌ POST Error:', error);
+    console.error('POST Error:', error);
     res.status(500).json({ 
       error: 'Failed to save location', 
       details: error.message 
@@ -58,10 +58,10 @@ router.post('/', async (req, res) => {
 router.delete('/', async (req, res) => {
   try {
     const result = await Location.deleteMany({});
-    console.log(`🗑️ DELETE: Removed ${result.deletedCount} locations`);
+    console.log(`DELETE: Removed ${result.deletedCount} locations`);
     res.json({ deletedCount: result.deletedCount });
   } catch (error) {
-    console.error('❌ DELETE Error:', error);
+    console.error('DELETE Error:', error);
     res.status(500).json({ error: 'Failed to clear locations' });
   }
 });

@@ -70,10 +70,10 @@ router.post('/locations', async (req, res) => {
     });
 
     const savedLocation = await newLocation.save();
-    console.log('✅ Location saved successfully:', savedLocation._id);
+    console.log('Location saved successfully:', savedLocation._id);
     res.status(201).json(savedLocation);
   } catch (error) {
-    console.error('❌ Error saving location:', error);
+    console.error('Error saving location:', error);
     res.status(500).json({ 
       error: 'Failed to save location', 
       details: error.message 

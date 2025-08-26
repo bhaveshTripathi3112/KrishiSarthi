@@ -62,7 +62,7 @@ app.post("/api/chat", async (req, res) => {
     res.json({ reply: botReply });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ reply: "⚠️ Sorry, I couldn’t process your request right now." });
+    res.status(500).json({ reply: "Sorry, I couldn’t process your request right now." });
   }
 });
 

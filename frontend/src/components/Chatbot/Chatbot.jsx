@@ -17,7 +17,7 @@ export  function Chatbot() {
 
       setMessages(prev => [...prev, { sender: "bot", text: botReply }]);
     } catch (err) {
-      setMessages(prev => [...prev, { sender: "bot", text: "⚠️ Server error, try again." }]);
+      setMessages(prev => [...prev, { sender: "bot", text: "Server error, try again." }]);
     }
 
     setInput("");

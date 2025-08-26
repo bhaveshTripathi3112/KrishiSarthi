@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
     console.log(`Fetched ${locations.length} locations from MongoDB`);
     res.json(locations);
   } catch (error) {
-    console.error('❌ Error fetching locations:', error);
+    console.error('Error fetching locations:', error);
     res.status(500).json({ error: 'Failed to fetch locations' });
   }
 });
@@ -38,15 +38,15 @@ router.get('/', async (req, res) => {
 // POST - Save new location
 router.post('/', async (req, res) => {
   try {
-    console.log('📤 Received data for saving:', req.body);
+    console.log('Received data for saving:', req.body);
     
     const newLocation = new Location(req.body);
     const savedLocation = await newLocation.save();
     
-    console.log('✅ Location saved to MongoDB:', savedLocation._id);
+    console.log('Location saved to MongoDB:', savedLocation._id);
     res.status(201).json(savedLocation);
   } catch (error) {
-    console.error('❌ Error saving location:', error);
+    console.error('Error saving location:', error);
     res.status(500).json({ error: 'Failed to save location', details: error.message });
   }
 });
@@ -55,10 +55,10 @@ router.post('/', async (req, res) => {
 router.delete('/', async (req, res) => {
   try {
     const result = await Location.deleteMany({});
-    console.log(`🗑️ Deleted ${result.deletedCount} locations from MongoDB`);
+    console.log(`Deleted ${result.deletedCount} locations from MongoDB`);
     res.json({ deletedCount: result.deletedCount });
   } catch (error) {
-    console.error('❌ Error clearing locations:', error);
+    console.error('Error clearing locations:', error);
     res.status(500).json({ error: 'Failed to clear locations' });
   }
 });
