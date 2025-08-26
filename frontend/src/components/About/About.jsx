@@ -102,7 +102,7 @@ export function About() {
       {/* Team Section */}
       <section className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 border-b-2 border-green-500 pb-2">
-          👨‍👩‍👦 Meet the Team – Mythical Coders
+           Meet the Team – Mythical Coders
         </h2>
         <p className="text-gray-700 mb-8 max-w-2xl mx-auto">
           KrishiSarthi is developed by Team Mythical Coders, a passionate group of innovators committed to creating meaningful technology for real-world problems.
