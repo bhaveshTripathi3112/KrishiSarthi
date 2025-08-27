@@ -1,10 +1,23 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 export function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
+
+  // Speech Recognition
+  const { transcript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+
+  useEffect(() => {
+    // Update the input field automatically as the user speaks
+    setInput(transcript);
+  }, [transcript]);
+
+  if (!browserSupportsSpeechRecognition) {
+    return <p>Your browser does not support speech recognition.</p>;
+  }
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -17,7 +30,8 @@ export function Chatbot() {
 
     const userMessage = { sender: "user", text: input };
     setMessages(prev => [...prev, userMessage]);
-    setInput("");
+    setInput(""); // clear input after sending
+    SpeechRecognition.stopListening(); // optional: stop listening after sending
 
     try {
       const res = await axios.post("http://localhost:8000/api/chat", { message: input });
@@ -27,6 +41,8 @@ export function Chatbot() {
       setMessages(prev => [...prev, { sender: "bot", text: "Server error, try again." }]);
     }
   };
+
+  const startListening = () => SpeechRecognition.startListening({ continuous: true, language: 'en-IN' });
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
@@ -40,7 +56,6 @@ export function Chatbot() {
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
             <div className="flex items-end space-x-2">
-              {/* Optional Avatar */}
               {msg.sender === "bot" && (
                 <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">
                   B
@@ -82,6 +97,18 @@ export function Chatbot() {
           className="bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 transition"
         >
           Send
+        </button>
+        <button
+          onClick={startListening}
+          className="bg-gray-300 text-black px-3 py-2 rounded-full hover:bg-gray-400 transition"
+        >
+          🎤
+        </button>
+        <button
+          onClick={SpeechRecognition.stopListening}
+          className="bg-gray-300 text-black px-3 py-2 rounded-full hover:bg-gray-400 transition"
+        >
+          ⏹️
         </button>
       </div>
     </div>

@@ -71,7 +71,7 @@ app.post("/api/chat", async (req, res) => {
               * *Language: Always reply in the same language as the user's question eg: (English, Hindi, or Hinglish).*
               * *Tone:* Be polite, supportive, and farmer-friendly. Use simple words.
               * *Format:* Keep answers short, clear, and easy to understand. Use bullet points or numbered lists for instructions.
-
+          5. do not use special while like * while replying to user instead use points
           Your goal is to be a trustworthy and helpful friend to the farmer. Always stay in character.
           `,
       }
@@ -108,22 +108,22 @@ app.post("/api/gemini", async (req, res) => {
       role: "user",
       parts: [{ text: `Provide information about the crop disease "${diseaseName}" strictly in English.
 
-First, describe the disease briefly in one or two sentences.
+          First, describe the disease briefly in one or two sentences.
 
-Then, under the heading Organic Measures, list organic ways to prevent it. Each method should be on a separate line without any symbols, numbering, or extra formatting.
+          Then, under the heading Organic Measures, list organic ways to prevent it. Each method should be on a separate line without any symbols, numbering, or extra formatting.
 
-Next, under the heading Chemical Measures, list chemical ways to prevent it. Each method should be on a separate line, including the specific chemicals, without any symbols, numbering, or extra formatting.
+          Next, under the heading Chemical Measures, list chemical ways to prevent it. Each method should be on a separate line, including the specific chemicals, without any symbols, numbering, or extra formatting.
 
-The answer should be short, concise, to the point, and strictly in plain text.
+          The answer should be short, concise, to the point, and strictly in plain text.
 
-format is like :
-Organic Measures
-method1
-method2
+          format is like :
+          Organic Measures
+          method1
+          method2
 
-Chemical Measures
-method1
-method2
+          Chemical Measures
+          method1
+          method2
 
         ` }]
     });
