@@ -144,30 +144,71 @@ app.post("/api/gemini", async (req, res) => {
 });
 
 
+const ai3 = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY3 });
+
+app.post("/api/get-crop-data", async (req, res) => {
+  try {
+    const { soilData } = req.body;
+    if (!soilData) {
+      return res.status(400).json({ error: "No soil data provided" });
+    }
+
+    // Prepare prompt for Gemini
+    const prompt = `
+      You are an expert agronomist. Based on the following soil properties, recommend the most suitable crops to grow. 
+      Provide output in points, in English . The heading should recommended crop.
+
+      Soil Data: ${JSON.stringify(soilData)}
+    `;
+
+    const response = await ai3.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: prompt }],
+        },
+      ],
+      config: {
+        systemInstruction: "You are Krishi Sahayak, an AI assistant for farmers in India. Give clear crop recommendations based on soil data.",
+      },
+    });
+
+    const recommendation = response.text;
+    res.json({ recommendation });
+  } catch (err) {
+    console.error("Gemini API error:", err);
+    res.status(500).json({ error: "Failed to fetch crop recommendation" });
+  }
+});
+
+
+
+
 const SOILGRID_URL = "https://rest.isric.org/soilgrids/v2.0/properties/query";
 
 app.get("/api/soil", async (req, res) => {
-  const { lat, lon } = req.query;
-
-  if (!lat || !lon) {
-    return res.status(400).json({ error: "lat and lon are required." });
-  }
-
-  try {
-    const url = `${SOILGRID_URL}?lon=${lon}&lat=${lat}`;
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      return res.status(502).json({ error: "SoilGrids API error." });
+    const { lat, lon } = req.query;
+    if (!lat || !lon) {
+        return res.status(400).json({ error: "lat and lon are required." });
     }
-
-    const soilData = await response.json();
-    res.json({ soil: soilData });
-  } catch (err) {
-    console.error("Backend error:", err.message);
-    res.status(500).json({ error: "Internal server error." });
-  }
+    try {
+        const properties = ['phh2o', 'soc', 'nitrogen', 'cec', 'clay', 'silt', 'sand'];
+          const propertyParams = properties.map(p =>` property=${p}`).join('&');
+          const url = `${SOILGRID_URL}?lon=${lon}&lat=${lat}&${propertyParams}`;
+          
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Failed to fetch data from SoilGrids API.");
+        }
+        const soilData = await response.json();
+        res.json({ soil: soilData });
+    } catch (err) {
+        console.error("Backend /api/soil error:", err.message);
+        res.status(500).json({ error: "Internal server error." });
+    }
 });
+
 
 
 app.listen(port , ()=>{
