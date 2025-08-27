@@ -1,9 +1,9 @@
 import React, { useRef } from 'react'
 import { useContext,useState } from 'react'
 import { useNavigate } from 'react-router-dom'
- // Ensure you have an appropriate background image in the assets folder
+
  import bgImage from "../../assets/bpg.jpeg";
-// Corrected the path to the image
+
 
 import axios from 'axios';
 import { dataContext } from '../../contexts/UserContext';
@@ -23,8 +23,7 @@ export function Login() {
             console.log(data);
             await getUserData()
             
-            navigate('/home'); // Navigate to home page after login
-            
+            navigate('/home'); 
         } catch (error) {
             setErrorMessage(error.response.data.message);
             

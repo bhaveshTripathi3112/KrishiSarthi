@@ -24,17 +24,17 @@ export const DynamicHeatMap = () => {
   const [error, setError] = useState('');
   const [isPanelVisible, setIsPanelVisible] = useState(true);
 
-  // ✅ FIXED: Load diseases from shared context with proper state update
+  
   useEffect(() => {
     if (diseaseData && diseaseData.length >= 0) {
       console.log('📊 Loading shared diseases from context:', diseaseData.length);
-      setDiseaseLocations([...diseaseData]); // Force new array reference
+      setDiseaseLocations([...diseaseData]); 
     }
   }, [diseaseData]);
 
   const addDiseaseToHeatmap = async (diseaseInfo, locationOverride = null) => {
     try {
-      console.log('🦠 Adding disease to shared heatmap:', diseaseInfo);
+      console.log(' Adding disease to shared heatmap:', diseaseInfo);
       
       const targetLocation = locationOverride || userLocation;
       
@@ -100,7 +100,7 @@ export const DynamicHeatMap = () => {
     }
   }, [map]);
 
-  // ✅ FIXED: AUTO-UPDATE When diseaseLocations state changes, update map
+ 
   useEffect(() => {
     console.log('🔄 Disease locations changed:', diseaseLocations.length);
     if (diseaseLocations.length > 0 && map) {
@@ -154,7 +154,7 @@ export const DynamicHeatMap = () => {
     );
   };
 
-  // ✅ ENHANCED UPDATE FUNCTION WITH DETAILED RESOURCE POPUPS
+ 
   const updateDiseaseMarkersOnly = (diseaseLocs) => {
     if (!map || !diseaseLocs || diseaseLocs.length === 0) return;
 
@@ -210,7 +210,7 @@ export const DynamicHeatMap = () => {
         weight: 4
       }).addTo(map);
 
-      // ✅ ENHANCED POPUP WITH DETAILED RESOURCE INFORMATION
+      
       const diseaseList = location.diseases.map((d, i) => 
         `<div style="padding: 8px; margin: 4px 0; background: #f8f9fa; border-radius: 4px; border-left: 3px solid ${color};">
           <strong>Report #${i + 1}: ${d.diseaseType}</strong><br/>
