@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import homeImage from '/src/assets/hero-image.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -27,6 +27,21 @@ export function Home() {
   const { serverUrl, userData, setUserData } = useContext(dataContext);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const [langDropdown, setLangDropdown] = useState(false);
+
+  const languages = [
+    { code: 'en', label: 'English' },
+    { code: 'hi', label: 'हिंदी' },
+    { code: 'gu', label: 'ગુજરાતી' },
+    { code: 'mr', label: 'मराठी' },
+    { code: 'ta', label: 'தமிழ்' },
+    { code: 'pa', label: 'ਪੰਜਾਬੀ' },
+    { code: 'bn', label: 'বাংলা' },
+    { code: 'te', label: 'తెలుగు' },
+    { code: 'hy', label: 'Hyderabadi' },
+    { code: 'hr', label: 'Haryanvi' },
+    { code: 'rj', label: 'Rajasthani' }
+  ];
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -45,10 +60,30 @@ export function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Language Toggle */}
-      <div className="flex justify-end p-4">
-        <button onClick={() => i18n.changeLanguage('en')} className="px-4 py-2 mr-2 border rounded hover:bg-gray-100">English</button>
-        <button onClick={() => i18n.changeLanguage('hi')} className="px-4 py-2 border rounded hover:bg-gray-100">हिंदी</button>
+      {/* Language Dropdown */}
+      <div className="flex justify-end p-4 relative">
+        <button
+          onClick={() => setLangDropdown(!langDropdown)}
+          className="px-4 py-2 border rounded hover:bg-gray-100"
+        >
+          {t('language', 'Language')}
+        </button>
+        {langDropdown && (
+          <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg z-50">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                onClick={() => {
+                  i18n.changeLanguage(lang.code);
+                  setLangDropdown(false);
+                }}
+              >
+                {lang.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Hero Section */}
@@ -75,9 +110,9 @@ export function Home() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">{t('featuresTitle')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <FeatureCard title={t('Detect & Diagnose')} description={t('featureDetect')} icon={<DetectIcon />} />
-            <FeatureCard title={t('Decide & Plan')} description={t('featureDecide')} icon={<DecideIcon />} />
-            <FeatureCard title={t('Defend & Prosper')} description={t('featureDefend')} icon={<DefendIcon />} />
+            <FeatureCard title={t('featureDetectTitle', 'Detect & Diagnose')} description={t('featureDetect')} icon={<DetectIcon />} />
+            <FeatureCard title={t('featureDecideTitle', 'Decide & Plan')} description={t('featureDecide')} icon={<DecideIcon />} />
+            <FeatureCard title={t('featureDefendTitle', 'Defend & Prosper')} description={t('featureDefend')} icon={<DefendIcon />} />
           </div>
         </div>
       </section>
