@@ -86,19 +86,19 @@ export function Scanner() {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            // 2️⃣ Clean disease name
+         
             const rawName = result.data.class;
             const confidence = result.data.confidence;
             const diseaseName = rawName.split('___')[1]?.replace(/_/g, ' ') || rawName;
 
             setScanResult({ class: diseaseName, confidence });
 
-            // 3️⃣ Update heatmap if disease detected
+            
             if (confidence >= 0.9 && isDiseaseDetected(diseaseName) && userLocation) {
                 handleHeatmapUpdate();
             }
 
-            // 4️⃣ Fetch Gemini recommendation
+         
             fetchGeminiResponse(diseaseName);
 
         } catch (err) {

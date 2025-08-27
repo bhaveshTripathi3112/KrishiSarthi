@@ -5,7 +5,6 @@ import './index.css'
 import App from './App'
 import './i18n'
 
-// ✅ Keep named imports where you actually exported them as named
 import { Home } from './components/Home/Home'
 import { Login } from './components/Login/Login'
 import { Signup } from './components/SignUp/SignUp'
@@ -24,7 +23,7 @@ import { HeatmapProvider } from './contexts/HeatmapContext'
 import { DynamicHeatMap } from './components/HeatMap/DynamicHeatMap'
 
 
-// ✅ Import default for Contacts.jsx
+
 import ContactPage from './components/Contacts/Contacts'
 
 const router = createBrowserRouter(
@@ -34,7 +33,7 @@ const router = createBrowserRouter(
       <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
-      <Route path="heatmap" element={<DynamicHeatMap />} />  {/* Separate HeatMap route */}
+      <Route path="heatmap" element={<DynamicHeatMap />} />  {}
       <Route path="scanner" element={<Scanner />} />
       <Route path="contact" element={<ContactPage />} />
       <Route path="about" element={<About />} />

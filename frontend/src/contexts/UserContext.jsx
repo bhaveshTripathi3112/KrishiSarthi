@@ -17,7 +17,7 @@ function UserContext({children}){
         });
         setUserData(data.user);
       } catch (error) {
-        setUserData(null); // Clear user data on error
+        setUserData(null); 
         navigate("/login");
         console.log(error);
       }

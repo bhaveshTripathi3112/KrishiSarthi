@@ -11,7 +11,7 @@ export const HeatmapProvider = ({ children }) => {
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
-  // Load data on mount and every 10 seconds
+  
   useEffect(() => {
     loadDiseasesFromDatabase();
     
@@ -22,7 +22,6 @@ export const HeatmapProvider = ({ children }) => {
     return () => clearInterval(interval);
   }, []);
 
-  // Load diseases from database
   const loadDiseasesFromDatabase = async () => {
     try {
       console.log('📊 Loading from MongoDB...');
@@ -82,7 +81,7 @@ export const HeatmapProvider = ({ children }) => {
         userId: payload.userId
       };
 
-      // ✅ FIXED: Proper state update with new array
+      
       setDiseaseData(prev => {
         const newArray = [...prev, newDisease];
         console.log('✅ State updated - Total diseases:', newArray.length);
@@ -92,7 +91,6 @@ export const HeatmapProvider = ({ children }) => {
       setRecentDiseaseAdded(newDisease);
       setTimeout(() => setRecentDiseaseAdded(null), 3000);
 
-      // ✅ FORCE REFRESH from database after 2 seconds
       setTimeout(() => {
         console.log('🔄 Force refreshing from database...');
         loadDiseasesFromDatabase();
