@@ -106,11 +106,25 @@ app.post("/api/gemini", async (req, res) => {
     // Add user message to history
     history.push({
       role: "user",
-      parts: [{ text: `Provide information about the crop disease "${diseaseName}" strictly in English. 
-      - First, describe the disease briefly.
-      - Second, list organic ways to prevent it (each method in a new line).
-      - Third, list chemical ways to prevent it (each method in a new line) including the specific chemicals that can be used.
-      - Each point should be on a separate line.
+      parts: [{ text: `Provide information about the crop disease "${diseaseName}" strictly in English.
+
+First, describe the disease briefly in one or two sentences.
+
+Then, under the heading Organic Measures, list organic ways to prevent it. Each method should be on a separate line without any symbols, numbering, or extra formatting.
+
+Next, under the heading Chemical Measures, list chemical ways to prevent it. Each method should be on a separate line, including the specific chemicals, without any symbols, numbering, or extra formatting.
+
+The answer should be short, concise, to the point, and strictly in plain text.
+
+format is like :
+Organic Measures
+method1
+method2
+
+Chemical Measures
+method1
+method2
+
         ` }]
     });
 
@@ -155,8 +169,13 @@ app.post("/api/get-crop-data", async (req, res) => {
 
     // Prepare prompt for Gemini
     const prompt = `
-      You are an expert agronomist. Based on the following soil properties, recommend the most suitable crops to grow. 
-      Provide output in points, in English . The heading should recommended crop.
+      At the top, under the heading Recommended Crop, give the single most suitable crop.
+
+Below that, list other suitable crops in short, concise bullet points.
+
+The answer should be to the point, in English, without any special symbols or extra text.
+
+Ensure the recommendations are based entirely on the soil properties provided.
 
       Soil Data: ${JSON.stringify(soilData)}
     `;
